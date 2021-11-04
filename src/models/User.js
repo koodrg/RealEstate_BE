@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const RealEstate = require('./RealEstate')
 
 const User = mongoose.Schema(
     {
@@ -39,15 +38,6 @@ const User = mongoose.Schema(
             type: String,
             default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
         },
-        listRating: [{
-            REId: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'realEstate',
-            },
-            Rating: {
-                type: Number,
-            }
-        }],
     },
     {
         timestamps: {

@@ -2,10 +2,6 @@ const mongoose = require('mongoose')
 const RealEstateCategory = require('./Categories')
 const Utility = require('./Utilities')
 const User = require('./User')
-const mongoosastic = require('mongoosastic');
-//const elasticsearch = require('elasticsearch');
-
-//const esClient = new elasticsearch.Client({host: 'localhost:9200'});
 
 const RealEstateSchema = mongoose.Schema(
     {

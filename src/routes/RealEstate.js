@@ -39,7 +39,7 @@ const getRealEstateByQuery = require('../controllers/realestate/getRealEstateByQ
 //     console.log(err);
 // })
 
-router.get("/all-real-estate/:page", getAllRealEstate);
+router.get("/all-real-estate", getAllRealEstate);
 
 router.get("/get-by-category/:category", getRealEstateByCate);
 
