@@ -12,6 +12,8 @@ const {
 const getRecommendRealEstate = require('../controllers/realestate/getRecommendRealEstate')
 
 const getRealEstateByQuery = require('../controllers/realestate/getRealEstateByQuery')
+
+const getAllRecommend = require('../controllers/realestate/getAllRecommend')
 // const { response } = require("express");
 
 // RealEstate.createMapping((err, mapping) => {
@@ -50,5 +52,7 @@ router.get("/get-by-id-elastic/:id", getRealEstateByIDElasticSearch);
 router.get("/recommend/:q/:category/:price_max/:price_min", getRecommendRealEstate);
 
 router.get("/api/_search", getRealEstateByQuery);
+
+router.get('/api/recommend/:userId', getAllRecommend);
 
 module.exports = router;
