@@ -1,6 +1,7 @@
 const { Rating } = require("../../models");
 // const {spawn} = require('child_process');
 const { PythonShell } = require("python-shell");
+const fs = require('fs');
 
 
 const getAllRecommend = async function (req, res) {
@@ -34,6 +35,8 @@ const getAllRecommend = async function (req, res) {
       console.log('finished');
     });
     console.log('done end pyshell')
+
+    //fs.writeFileSync('./ratings.json', JSON.stringify(result, null, 10)); 
     
     res.status(200).send('success'); 
   }
@@ -41,20 +44,5 @@ const getAllRecommend = async function (req, res) {
     console.log(err);
   }
 }
-
-/**************************************** */
-    // var python = spawn('python', ['recommend.py'], { stdio: 'pipe'});
-
-    // const buffers = [];
-
-    // python.stdout.on('data', (chunk) => buffers.push(chunk));
-    // python.stdout.on('end', () => {
-    //     const result = JSON.parse(Buffer.concat(buffers));
-    //     console.log('Python process exited, result:', result);
-    // });
-
-    // python.stdin.write(JSON.stringify(result));
-    // python.stdin.end()  
-/********************************************** */
 
 module.exports = getAllRecommend;
