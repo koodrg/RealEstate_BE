@@ -15,7 +15,7 @@ const getAllRecommend = async function (req, res) {
     });   
     //run python script 
     
-    let pyshell = new PythonShell('./src/controllers/realestate/recommend.py', { mode: 'json' });
+    let pyshell = new PythonShell('./src/controllers/realestate/recommend.py', { mode: 'text' });
 
     // sends a message to the Python script via stdin
     pyshell.send(JSON.stringify(result))
@@ -24,7 +24,12 @@ const getAllRecommend = async function (req, res) {
 
     pyshell.on('message', function (message) {
       // received a message sent from the Python script (a simple "print" statement)
-      console.log(message);
+      try{
+        console.log(message)
+      }
+      catch(err){
+        throw err;
+      }
     });
   
     // end the input stream and allow the process to exit

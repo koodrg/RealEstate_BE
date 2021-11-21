@@ -10,30 +10,30 @@ class CF(object):
     """docstring for CF"""
     def __init__(self, Y_data, k, dist_func = cosine_similarity, uuCF = 1):
         self.uuCF = uuCF # user-user (1) or item-item (0) CF
-        self.Y_data = Y_data if uuCF else Y_data[:, [0, 2, 1, 3, 4]]
+        self.Y_data = Y_data
         self.k = k
         self.dist_func = dist_func
         self.Ybar_data = None
-        # self.n_users = Y_data[1].nunique()
-        # self.n_items = Y_data[2].nunique()
+        self.n_users = Y_data['userId'].nunique()
+        self.n_items = Y_data['realEstateId'].nunique()
 
     def normalize_Y(self):
-        users = self.Y_data['userId'] # all users - first col of the Y_data
-        self.Ybar_data = self.Y_data.copy()
+        users = self.Y_data.values[0] # all users - first col of the Y_data
+        self.Ybar_data = self.Y_data.values.copy()
         self.mu = np.zeros((self.n_users,))
         for n in (users):
             # row indices of rating done by user n
             # since indices need to be integers, we need to convert
-            ids = np.where(users == n)['userId']
+            ids = np.where(users == n)[0]
             # indices of all ratings associated with user n
-            item_ids = self.Y_data[1, 2]
+            item_ids = self.Y_data.values[ids, 1]
             # and the corresponding ratings
-            ratings = self.Y_data[ids, 3]
+            ratings = self.Y_data[ids, 2]
             # take mean
             m = np.mean(ratings)
             if np.isnan(m):
                 m = 0 # to avoid empty array and nan value
-            self.mu[n] = m
+            self.mu[n] = m # chinh n lai thanh int
             # normalize
             self.Ybar_data[ids, 2] = ratings - self.mu[n]
         ################################################
@@ -56,18 +56,19 @@ class CF(object):
         if you need the un
         """
         # Step 1: find all users who rated i
-        ids = np.where(self.Y_data[:, 2] == i)[1]
+        ids = np.where(self.Y_data.values[:, 1] == i)[0]
         # Step 2:
-        users_rated_i = (self.Y_data[ids, 1])
+        users_rated_i = (self.Y_data.values[ids, 0])
         # Step 3: find similarity btw the current user and others
         # who already rated i
         sim = self.S[u, users_rated_i]
+        # sim = self.dist_func(u, users_rated_i);
         # Step 4: find the k most similarity users
         a = np.argsort(sim)[-self.k:]
         # and the corresponding similarity levels
         nearest_s = sim[a]
         # How did each of 'near' users rated item i
-        r = self.Ybar[i, users_rated_i[a]]
+        r = self.Ybar.values[i, users_rated_i[a]]
         if normalized:
             # add a small number, for instance, 1e-8, to avoid dividing by 0
             return (r*nearest_s)[0]/(np.abs(nearest_s).sum() + 1e-8)
@@ -89,8 +90,8 @@ class CF(object):
         self.pred(u, i) > 0. Suppose we are considering items which
         have not been rated by u yet.
         """
-        ids = np.where(self.Y_data[:, 0] == u)[0]
-        items_rated_by_u = self.Y_data[ids, 1].tolist()
+        ids = np.where(self.Y_data.values[:,1] == u)[0].tolist()
+        items_rated_by_u = self.Y_data.values[ids, 2].tolist()
         recommended_items = []
         for i in range(self.n_items):
             if i not in items_rated_by_u:
@@ -99,16 +100,22 @@ class CF(object):
                     recommended_items.append(i)
         return recommended_items
     
+    
+    
+    
 data = sys.stdin.readlines()
 ratings_data = json.loads(data[0])
 userId = json.loads(data[1])
 
-ratings = pd.json_normalize([ratings_data])
+ratings = json_normalize(ratings_data)
 
-Y_data = ratings.values
+del ratings['_id']
+del ratings['__v']
 
-
+Y_data = ratings
 
 rs = CF(Y_data, k = 20, uuCF = 1)
+rs.normalize_Y()
+rs.similarity() 
 
-rs.recommend(userId)
+rs.recommend(str(userId))
