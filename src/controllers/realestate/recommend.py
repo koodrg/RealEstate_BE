@@ -105,14 +105,13 @@ class CF(object):
         have not been rated by u yet. 
         """
         ids = np.where(self.Y_data[:, 0] == u)[0]
-        items_rated_by_u = self.Y_data[ids, 1].tolist()              
+        items_rated_by_u = self.Y_data[ids, 1].tolist()            
         recommended_items = []
         for i in range(self.n_items):
             if i not in items_rated_by_u:
                 rating = self.__pred(u, i)
                 if rating > 0: 
                     recommended_items.append(i)
-        
         return recommended_items 
     
     def recommend2(self, u):
@@ -131,7 +130,6 @@ class CF(object):
                 rating = self.__pred(u, i)
                 if rating > 0: 
                     recommended_items.append(i)
-        
         return recommended_items 
 
     def print_recommendation(self):
@@ -150,7 +148,7 @@ class CF(object):
   
 data = sys.stdin.readlines()
 ratings_data = json.loads(data[0])
-userId = json.loads(data[1])
+userId = str(json.loads(data[1]))
 
 ratings = json_normalize(ratings_data)
 
@@ -182,4 +180,15 @@ Y_data = ratings.values
 rs = CF(Y_data, k = 1, uuCF = 1)
 rs.fit()
 
-rs.print_recommendation()
+u = users_unique.index[users_unique[0] == userId].tolist()[0]
+
+recommends = rs.recommend(u)
+
+list_items_recommed = []
+for i in recommends:
+    item = users_unique.at[i,0]
+    list_items_recommed.append(item)
+    if len(list_items_recommed) == 10:
+        break
+    
+print(list_items_recommed)

@@ -25,7 +25,8 @@ const getAllRecommend = async function (req, res) {
     pyshell.on('message', function (message) {
       // received a message sent from the Python script (a simple "print" statement)
       try{
-        console.log(message)
+        const data = JSON.parse(message.toString())
+        console.log(data);
       }
       catch(err){
         throw err;
