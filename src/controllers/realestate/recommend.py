@@ -186,7 +186,7 @@ recommends = rs.recommend(u)
 
 list_items_recommed = []
 for i in recommends:
-    item = users_unique.at[i,0]
+    item = items_unique.at[i,0]
     list_items_recommed.append(item)
     if len(list_items_recommed) == 10:
         break

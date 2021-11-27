@@ -2,6 +2,8 @@ const { Rating } = require("../../models");
 // const {spawn} = require('child_process');
 const { PythonShell } = require("python-shell");
 const fs = require('fs');
+const { RealEstate } = require("../../models");
+const { Tasks } = require("elasticsearch");
 
 
 const getAllRecommend = async function (req, res) {
@@ -22,21 +24,29 @@ const getAllRecommend = async function (req, res) {
     pyshell.send(JSON.stringify(req.params.userId))
 
 
-    pyshell.on('message', function (message) {
+    pyshell.on('message', async function (message) {
       // received a message sent from the Python script (a simple "print" statement)
       try{
-        const data = JSON.parse(message.toString())
-        console.log(data);
+        // const data = JSON.parse(message.toString())
+        var data = message.toString().replace('[','').replace(']','')
+        data = data.split("'").join('').split(", ")
+        
+        const promises = await data.map(async(re) => {
+          let realEstate = await GetOneRealEstate(re)
+          return realEstate
+        });
+        const response = await Promise.all(promises)
+        res.status(200).send({data: response})
       }
       catch(err){
-        throw err;
+        console.log(err);
       }
     });
   
     // end the input stream and allow the process to exit
     pyshell.end(function (err) {
       if (err){
-          throw err;
+          console.log(err);
       };
       console.log('finished');
     });
@@ -44,11 +54,22 @@ const getAllRecommend = async function (req, res) {
 
     //fs.writeFileSync('./ratings.json', JSON.stringify(result, null, 10)); 
     
-    res.status(200).send('success'); 
+    //res.status(200).send('success'); 
+  }
+  catch(err){
+    throw err;
+  }
+}
+
+const GetOneRealEstate = async (id) => {
+  try{
+    const re = await RealEstate.findById(id)
+    return re
   }
   catch(err){
     console.log(err);
   }
+ 
 }
 
 module.exports = getAllRecommend;
