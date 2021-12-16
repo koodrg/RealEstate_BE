@@ -2,17 +2,18 @@ const express = require("express");
 const router = express.Router();
 const RealEstate = require("../models/RealEstate");
 
+const requireLogin = require('../middleware/requireLogin')
+const requireRoleAdmin = require('../middleware/requireRoleAdmin')
+
 const getAllRealEstate = require("../controllers/realestate/getAllRealEstate");
 const getRealEstateByCate = require("../controllers/realestate/getRealEstateByCate");
 const getRealEstateById = require("../controllers/realestate/getRealEstateByID");
-
 const getRecommendRealEstate = require('../controllers/realestate/getRecommendRealEstate')
-
 const getRealEstateByQuery = require('../controllers/realestate/getRealEstateByQuery')
-
 const getAllRecommend = require('../controllers/realestate/getAllRecommend')
+const updateRealEstate = require('../controllers/realestate/updateRealEstate')
 
-const requireLogin = require('../middleware/requireLogin')
+
 
 router.get("/all-real-estate", getAllRealEstate);
 
@@ -25,5 +26,7 @@ router.get("/recommend/:q/:category/:price_max/:price_min", getRecommendRealEsta
 router.get("/api/_search", getRealEstateByQuery);
 
 router.get('/api/recommend/:userId', getAllRecommend);
+
+router.post('/update/:realEstateId', requireLogin, requireRoleAdmin, updateRealEstate)
 
 module.exports = router;

@@ -1,8 +1,8 @@
 const { RealEstate } = require("../../models");
 
-const updateRealEstateById = async (req, res, next) => {
+const updateRealEstate = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params.realEstateId;
     const updates = req.body;
     const option = { new: true };
 
@@ -13,4 +13,4 @@ const updateRealEstateById = async (req, res, next) => {
   }
 };
 
-module.exports = updateRealEstateById;
+module.exports = updateRealEstate;
