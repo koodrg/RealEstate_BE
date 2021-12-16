@@ -1,7 +1,6 @@
 const { RealEstate, Categories} = require("../../models");
 
 const getRealEstateByCate = async (req,res) => {
-
     let categoryType = req.params.category;
     try{
         const category = await findCategoryByType(categoryType);

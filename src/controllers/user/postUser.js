@@ -8,7 +8,7 @@ const postUser = async (req, res) => {
     listRealEstate: [],
   });
   try {
-    const saveUser = await User.save();
+    const saveUser = await user.save();
     res.status(200).json(saveUser);
   } catch (err) {
     res.status(404).json({ message: err });

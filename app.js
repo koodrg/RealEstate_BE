@@ -15,7 +15,8 @@ const {
     categoriesApiRoute,
     realEstateApiRoute,
     utilitiesApiRoute,
-    userApiRoute
+    userApiRoute,
+    ratingApiRoute
 } = require('./src/routes/index')
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -45,6 +46,7 @@ app.use('/users', userApiRoute);
 app.use('/categories', categoriesApiRoute);
 app.use('/utilities', utilitiesApiRoute);
 app.use('/real-estate', realEstateApiRoute);
+app.use('/rating', ratingApiRoute)
 
 
 mongoose.connect(

@@ -28,7 +28,7 @@ const signUp = (req,res)=>{
     
             user.save()
             .then(user =>{
-                res.json({message:"save successfully"})
+                res.json({message:"Save successfully"})
             })
             .catch(err => {
                 console.log(err)
