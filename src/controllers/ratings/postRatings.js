@@ -1,10 +1,11 @@
-const Rating = require("../../models");
+const Rating = require("../../models"); 
 
 const postRating = async (req, res) => {
-    let {realEstateId, rating} = req.query;
-    let currentUser = req.user;
+    let {realEstateId, rating} = req.params;
+    let currentUser = req.user
+
     let newRating = new Rating({
-        userId: currentUser._id,
+        userId: currentUser._id+'',
         realEstateId,
         rating
     });
