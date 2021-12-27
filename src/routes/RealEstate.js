@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const RealEstate = require("../models/RealEstate");
+const upload = require('../utils/multer');
+
 
 const requireLogin = require('../middleware/requireLogin')
 const requireRoleAdmin = require('../middleware/requireRoleAdmin')
@@ -12,7 +13,7 @@ const getRecommendRealEstate = require('../controllers/realestate/getRecommendRe
 const getRealEstateByQuery = require('../controllers/realestate/getRealEstateByQuery')
 const getAllRecommend = require('../controllers/realestate/getAllRecommend')
 const updateRealEstate = require('../controllers/realestate/updateRealEstate')
-
+const postRealEstate = require('../controllers/realestate/postRealEstate')
 
 
 router.get("/all-real-estate", getAllRealEstate);
@@ -27,6 +28,8 @@ router.get("/api/_search", getRealEstateByQuery);
 
 router.get('/api/recommend/:userId', getAllRecommend);
 
-router.post('/update/:realEstateId', requireLogin, requireRoleAdmin, updateRealEstate)
+router.post('/update/:realEstateId', requireLogin, requireRoleAdmin, updateRealEstate);
+
+router.post('/post', postRealEstate);
 
 module.exports = router;

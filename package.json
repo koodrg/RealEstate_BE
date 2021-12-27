@@ -21,6 +21,7 @@
     "elasticsearch": "^16.7.2",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
+    "express-fileupload": "^1.2.1",
     "express-session": "^1.17.1",
     "faker": "^5.5.3",
     "jsonwebtoken": "^8.5.1",

@@ -5,6 +5,11 @@ const getRealEstateByQuery = async (req, res) => {
     let { q, category, price_max, price_min } = req.query;
     console.log(req.query)
     var response = [];
+    if(q=='undefined' || q == 'null') q=''
+    if(category == 'undefined' || category == 'null') category =''
+    if(price_max == 'undefined') price_max = 20000000000
+    if(price_min == 'undefined') price_min = 0 
+    console.log(price_max, price_min)
     response = await RealEstate.find({
         $and: [
             {

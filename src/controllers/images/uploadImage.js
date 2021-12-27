@@ -1,31 +1,23 @@
-const cloudinary = require("../utils/cloudinary");
+const cloudinary = require("../../utils/cloudinary");
+const fs = require('fs')
 
-const uploadToCloudinary = async (locaFilePath, realEstateId) => {
+const uploadToCloudinary = async (req, res) => {
     // filePathOnCloudinary: path of image we want
     // to set when it is uploaded to cloudinary
-    var filePathOnCloudinary = 
-        realEstateId + "/" + locaFilePath;
-  
+    var filePathOnCloudinary = "batdongsan/" + req.user._id;
+    console.log(req.file)
     return cloudinary.uploader
-        .upload(locaFilePath, { public_id: filePathOnCloudinary })
+        .upload(req.file.path, { public_id: filePathOnCloudinary })
         .then((result) => {
-  
-            // Image has been successfully uploaded on
-            // cloudinary So we dont need local image 
-            // file anymore
-            // Remove file from local uploads folder
-            fs.unlinkSync(locaFilePath);
-  
-            return {
+            fs.unlinkSync(req.file.path);
+            res.status(200).send({
                 message: "Success",
                 url: result.url,
-            };
+            });
         })
         .catch((error) => {
-  
-            // Remove file from local uploads folder
-            fs.unlinkSync(locaFilePath);
-            return { message: "Fail" };
+            fs.unlinkSync(req.file.path);
+            res.status(400).send({ message: error });
         });
 }
 

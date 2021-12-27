@@ -6,8 +6,12 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 var session = require("express-session");
 var flash = require("connect-flash");
+const fileupload = require('express-fileupload'); 
+
 // var cors = require('cors');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+// app.use(fileupload({useTempFiles: true}))
 
 require("dotenv/config");
 
@@ -16,10 +20,11 @@ const {
     realEstateApiRoute,
     utilitiesApiRoute,
     userApiRoute,
-    ratingApiRoute
+    ratingApiRoute,
+    uploadApiRoute
 } = require('./src/routes/index')
 
-app.use(bodyParser.urlencoded({ extended: true }))
+
 const authRoute = require('./src/routes/auth')
 app.use(session({
     secret: 'secret',
@@ -37,7 +42,9 @@ app.all("*", (req, res, next) => {
       "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
     );
     next();
-  });
+  }
+);
+
 
 app.use('/', authRoute);
 
@@ -47,7 +54,7 @@ app.use('/categories', categoriesApiRoute);
 app.use('/utilities', utilitiesApiRoute);
 app.use('/real-estate', realEstateApiRoute);
 app.use('/rating', ratingApiRoute)
-
+app.use('/file', uploadApiRoute)
 
 mongoose.connect(
     process.env.DB_CONNECTION,
