@@ -2,7 +2,7 @@ const { RealEstate } = require("../../models");
 
 const getAllRealEstate = async function (req, res) {
   try{
-    const result = await RealEstate.find({});
+    const result = await RealEstate.find({isConfirmed: true});
     res.set({
       "Access-Control-Allow-Credentials": "true",
       "Access-Control-Allow-Methods": "GET, POST,   ",
