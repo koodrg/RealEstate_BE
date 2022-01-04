@@ -5,6 +5,7 @@ const expressEjsLayouts = require('express-ejs-layouts');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 var session = require("express-session");
+const cors = require("cors")
 var flash = require("connect-flash");
 const fileupload = require('express-fileupload'); 
 
@@ -39,14 +40,14 @@ app.all("*", (req, res, next) => {
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
     res.header(
       "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+      "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
     );
     next();
   }
 );
 
 
-app.use('/', authRoute);
+app.use('/',  authRoute);
 
 //routes API
 app.use('/users', userApiRoute);

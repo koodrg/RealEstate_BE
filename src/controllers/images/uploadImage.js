@@ -4,7 +4,7 @@ const fs = require('fs')
 const uploadToCloudinary = async (req, res) => {
     // filePathOnCloudinary: path of image we want
     // to set when it is uploaded to cloudinary
-    var filePathOnCloudinary = "batdongsan/" + req.user._id;
+    var filePathOnCloudinary = "batdongsan/" + Date.now() + "-" + req.file.originalname;
     console.log(req.file)
     return cloudinary.uploader
         .upload(req.file.path, { public_id: filePathOnCloudinary })

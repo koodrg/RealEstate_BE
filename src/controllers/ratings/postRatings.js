@@ -1,18 +1,18 @@
-const Rating = require("../../models"); 
+const { Rating } = require("../../models"); 
 
 const postRating = async (req, res) => {
-    let {realEstateId, rating} = req.params;
-    let currentUser = req.user
-
-    let newRating = new Rating({
-        userId: currentUser._id+'',
-        realEstateId,
-        rating
-    });
-
     try {
+        const {realEstateId, rating} = req.body;
+        console.log(realEstateId, rating)
+        const currentUser = req.user
+        const newRating = new Rating({
+            userId: currentUser._id,
+            realEstateId: realEstateId,
+            rating
+        });
         const saveRating = await newRating.save();
-        res.status(200).json(saveUser);
+        console.log(saveRating)
+        res.status(200).json(saveRating);
     } catch (err) {
         res.status(404).json({ message: err });
     }

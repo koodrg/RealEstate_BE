@@ -2,10 +2,11 @@ const { RealEstate } = require('../../models');
 
 const postRealEstate = async (req, res, next) => {
   try{
+    console.log(req.body)
     if(!req.body.imagesUrl){
       res.status(400).send('No images attach!')
     }
-    const realEstate = new RealEstate({
+    const newRealEstate = new RealEstate({
         utilsList: [],
         id_category: req.body.id_category,
         name: req.body.name,
@@ -21,14 +22,15 @@ const postRealEstate = async (req, res, next) => {
         more_description: req.body.more_description,
         isConfirmed: false,
         postedBy: req.user._id,
-        legal: req.body.legal,
+        legal: '',
         imgList: req.body.imagesUrl
     });
-    const saveRealEstate = await realEstate.save();
+    const saveRealEstate = await newRealEstate.save();
+    console.log(saveRealEstate)
     res.status(200).json(saveRealEstate);
   }
   catch (err) {
-    res.status(404).json({ message: err });
+    console.log(err)
   }
 };
 

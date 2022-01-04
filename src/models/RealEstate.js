@@ -5,9 +5,6 @@ const User = require('./User')
 
 const RealEstateSchema = mongoose.Schema(
     {
-        _id: {
-            type: mongoose.SchemaTypes.ObjectId,
-        },
         id_category:{
             type: mongoose.SchemaTypes.ObjectId,
             ref: RealEstateCategory,

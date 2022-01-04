@@ -7,10 +7,12 @@ const Rating = mongoose.Schema(
         userId:{
             type: mongoose.SchemaTypes.ObjectId,
             ref: User,
+            require: true
         },
         realEstateId:{
             type: mongoose.SchemaTypes.ObjectId,
             ref: RealEstate,
+            require: true
         },
         rating: {
             type: Number,

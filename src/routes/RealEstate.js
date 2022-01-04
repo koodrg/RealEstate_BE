@@ -30,6 +30,6 @@ router.get('/api/recommend/:userId', getAllRecommend);
 
 router.post('/update/:realEstateId', requireLogin, requireRoleAdmin, updateRealEstate);
 
-router.post('/post', postRealEstate);
+router.post('/post', requireLogin, postRealEstate);
 
 module.exports = router;
