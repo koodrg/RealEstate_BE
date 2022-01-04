@@ -1,4 +1,3 @@
-const { isValidObjectId } = require("mongoose");
 const { RealEstate } = require("../../models");
 
 const getRealEstateByQuery = async (req, res) => {

@@ -14,6 +14,7 @@ const getRealEstateByQuery = require('../controllers/realestate/getRealEstateByQ
 const getAllRecommend = require('../controllers/realestate/getAllRecommend')
 const updateRealEstate = require('../controllers/realestate/updateRealEstate')
 const postRealEstate = require('../controllers/realestate/postRealEstate')
+const getUnconfirmedRealEstate = require('../controllers/realestate/getUnconfirmedRealEstate')
 
 
 router.get("/all-real-estate", getAllRealEstate);
@@ -31,5 +32,7 @@ router.get('/api/recommend/:userId', getAllRecommend);
 router.post('/update/:realEstateId', requireLogin, requireRoleAdmin, updateRealEstate);
 
 router.post('/post', requireLogin, postRealEstate);
+
+router.get('/unconfirmed', getUnconfirmedRealEstate);
 
 module.exports = router;
