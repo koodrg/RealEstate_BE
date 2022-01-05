@@ -15,6 +15,7 @@ const getAllRecommend = require('../controllers/realestate/getAllRecommend')
 const updateRealEstate = require('../controllers/realestate/updateRealEstate')
 const postRealEstate = require('../controllers/realestate/postRealEstate')
 const getUnconfirmedRealEstate = require('../controllers/realestate/getUnconfirmedRealEstate')
+const deleteRealEstateById = require('../controllers/realestate/deleteRealEstate')
 
 
 router.get("/all-real-estate", getAllRealEstate);
@@ -34,5 +35,7 @@ router.post('/update/:realEstateId', requireLogin, requireRoleAdmin, updateRealE
 router.post('/post', requireLogin, postRealEstate);
 
 router.get('/unconfirmed', getUnconfirmedRealEstate);
+
+router.delete('/delete/:id', deleteRealEstateById)
 
 module.exports = router;

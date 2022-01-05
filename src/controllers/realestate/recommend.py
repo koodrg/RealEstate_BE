@@ -188,7 +188,7 @@ list_items_recommed = []
 for i in recommends:
     item = items_unique.at[i,0]
     list_items_recommed.append(item)
-    if len(list_items_recommed) == 10:
+    if len(list_items_recommed) == 8:
         break
     
 print(list_items_recommed)

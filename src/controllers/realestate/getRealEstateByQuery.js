@@ -1,7 +1,8 @@
 const { RealEstate } = require("../../models");
+const ObjectId = require('mongodb').ObjectId; 
 
 const getRealEstateByQuery = async (req, res) => {
-    let { q, category, price_max, price_min } = req.query;
+    let { q, category, price_max, price_min, offset, skip} = req.query;
     console.log(req.query)
     var response = [];
     if(q=='undefined' || q == 'null') q=''
